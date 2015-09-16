@@ -1,0 +1,90 @@
+package org.dynami.ta.momentum;
+
+import com.tictactec.ta.lib.MInteger;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+import org.dynami.ta.TaLibIndicator;
+import org.dynami.core.ITechnicalIndicator;
+import org.dynami.core.data.Series;
+import org.dynami.core.utils.DUtils;
+/**
+ * GENERATED CODE
+ */
+public class Bop extends TaLibIndicator implements ITechnicalIndicator {
+	private int lastLength = 0;
+	private int PAD = 4;
+	private boolean ready = false;
+	// output series
+	private Series outReal = new Series();
+	
+	/**
+	 * Default constructor with custom input parameters:
+	 */
+	public Bop(){
+		computePad(PAD);
+	}
+
+	private void computePad(int...v){
+		int max = Integer.MIN_VALUE;
+		for(int d : v){
+			if(d > max)
+				max = d;
+		}
+		PAD = max;
+	}
+
+	@Override
+	public String getName(){
+		return "Bop";
+	}
+
+	@Override
+	public String getDescription(){
+		return "Bop - Momentum Indicators";
+	}
+
+	/**
+	 * Compute indicator based on constructor class parameters 
+	 * and input Series.
+	 */
+	public void compute( final Series open, final Series high, final Series low, final Series close) {
+		final MInteger outBegIdx = new MInteger();
+		final MInteger outNBElement = new MInteger();
+		// define strict necessary input parameters
+		final int currentLength = open.size();
+		final double[] _tmpopen = open.toArray(Math.max(lastLength-PAD, 0), currentLength);
+		final double[] _tmphigh = high.toArray(Math.max(lastLength-PAD, 0), currentLength);
+		final double[] _tmplow = low.toArray(Math.max(lastLength-PAD, 0), currentLength);
+		final double[] _tmpclose = close.toArray(Math.max(lastLength-PAD, 0), currentLength);
+		// define output parameters
+		final double[] _outReal = new double[_tmpopen.length];
+		
+		ready = DUtils.max(_tmpopen.length, _tmphigh.length, _tmplow.length, _tmpclose.length) >= DUtils.max();
+		// calculate output
+		core.bop(0, _tmpopen.length-1, _tmpopen, _tmphigh, _tmplow, _tmpclose, outBegIdx, outNBElement, _outReal);
+ 		// shift data to end of array and set output fields
+		DUtils.shift(_outReal, outBegIdx.value);
+		for(int i = lastLength, j = currentLength-lastLength; i < currentLength; i++, lastLength++, j--){
+			outReal.append(_outReal[_outReal.length-j]);
+		}
+	}
+
+	public Series get(){
+		return outReal;
+	}
+
+	@Override
+	public List<Supplier<Series>> series() {
+		return Arrays.asList(this::get);
+	}
+	@Override
+	public boolean isReady() {
+		return ready;
+	}
+	@Override
+	public String[] seriesNames() {
+		return new String[]{"Bop"};
+	}
+}
+

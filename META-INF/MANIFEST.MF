@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dynami-TA
+Bundle-SymbolicName: Dynami-TA
+Bundle-Version: 1.0.0.Anna
+Bundle-Vendor: Alessandro Atria
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ClassPath: libs/ta-lib-0.4.0.jar,
+ .
+Require-Bundle: org.dynami.core;bundle-version="1.0.0"
+Export-Package: com.tictactec.ta.lib,
+ com.tictactec.ta.lib.meta,
+ com.tictactec.ta.lib.meta.annotation,
+ com.tictactec.ta.lib.meta.helpers,
+ com.tictactec.ta.lib.test,
+ org.dynami.ta,
+ org.dynami.ta.cycle,
+ org.dynami.ta.math,
+ org.dynami.ta.math_transform,
+ org.dynami.ta.momentum,
+ org.dynami.ta.overlap_studies,
+ org.dynami.ta.pattern,
+ org.dynami.ta.price_transform,
+ org.dynami.ta.stat,
+ org.dynami.ta.volatility

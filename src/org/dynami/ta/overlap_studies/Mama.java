@@ -1,0 +1,109 @@
+package org.dynami.ta.overlap_studies;
+
+import com.tictactec.ta.lib.MInteger;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+import org.dynami.ta.TaLibIndicator;
+import org.dynami.core.ITechnicalIndicator;
+import org.dynami.core.data.Series;
+import org.dynami.core.utils.DUtils;
+/**
+ * GENERATED CODE
+ */
+public class Mama extends TaLibIndicator implements ITechnicalIndicator {
+	private double fastLimit = 0.5;
+	private double slowLimit = 0.05;
+	private int lastLength = 0;
+	private int PAD = 4;
+	private boolean ready = false;
+	// output series
+	private Series outMAMA = new Series();
+	private Series outFAMA = new Series();
+	
+	/**
+	 * Default constructor with standard input parameters</br>
+	 * default value for fastLimit = 0.5</br>
+	 * default value for slowLimit = 0.05</br>
+	 */
+	public Mama(){
+		computePad(PAD);
+	}
+
+	/**
+	 * Default constructor with custom input parameters:
+	 * @param fastLimit default value 0.5
+	 * @param slowLimit default value 0.05
+	 */
+	public Mama(double fastLimit, double slowLimit){
+		this.fastLimit = fastLimit;
+		this.slowLimit = slowLimit;
+		computePad(PAD);
+	}
+
+	private void computePad(int...v){
+		int max = Integer.MIN_VALUE;
+		for(int d : v){
+			if(d > max)
+				max = d;
+		}
+		PAD = max;
+	}
+
+	@Override
+	public String getName(){
+		return "Mama";
+	}
+
+	@Override
+	public String getDescription(){
+		return "Mama - Overlap Studies";
+	}
+
+	/**
+	 * Compute indicator based on constructor class parameters 
+	 * and input Series.
+	 */
+	public void compute( final Series inReal) {
+		final MInteger outBegIdx = new MInteger();
+		final MInteger outNBElement = new MInteger();
+		// define strict necessary input parameters
+		final int currentLength = inReal.size();
+		final double[] _tmpinReal = inReal.toArray(Math.max(lastLength-PAD, 0), currentLength);
+		// define output parameters
+		final double[] _outMAMA = new double[_tmpinReal.length];
+		final double[] _outFAMA = new double[_tmpinReal.length];
+		
+		ready = DUtils.max(_tmpinReal.length) >= DUtils.max();
+		// calculate output
+		core.mama(0, _tmpinReal.length-1, _tmpinReal, this.fastLimit, this.slowLimit, outBegIdx, outNBElement, _outMAMA, _outFAMA);
+ 		// shift data to end of array and set output fields
+		DUtils.shift(_outMAMA, outBegIdx.value);
+		DUtils.shift(_outFAMA, outBegIdx.value);
+		for(int i = lastLength, j = currentLength-lastLength; i < currentLength; i++, lastLength++, j--){
+			outMAMA.append(_outMAMA[_outMAMA.length-j]);
+			outFAMA.append(_outFAMA[_outFAMA.length-j]);
+		}
+	}
+
+	public Series getMAMA(){
+		return outMAMA;
+	}
+	public Series getFAMA(){
+		return outFAMA;
+	}
+
+	@Override
+	public List<Supplier<Series>> series() {
+		return Arrays.asList(this::getMAMA, this::getFAMA);
+	}
+	@Override
+	public boolean isReady() {
+		return ready;
+	}
+	@Override
+	public String[] seriesNames() {
+		return new String[]{"MAMA", "FAMA"};
+	}
+}
+
