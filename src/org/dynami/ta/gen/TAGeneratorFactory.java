@@ -140,6 +140,25 @@ public class TAGeneratorFactory {
 		try {
             //Construct the BufferedWriter object
             w = new BufferedWriter(new FileWriter(fullPath+File.separator+_className+".java"));
+            
+            //LICENCE
+            w.write("/*\n");
+            w.write(" * Copyright 2015 Alessandro Atria - a.atria@gmail.com\n");
+            w.write(" *\n");
+            w.write(" * Licensed under the Apache License, Version 2.0 (the \"License\");\n");
+            w.write(" * you may not use this file except in compliance with the License.\n");
+            w.write(" * You may obtain a copy of the License at\n");
+            w.write(" *\n");
+            w.write(" *        http://www.apache.org/licenses/LICENSE-2.0\n");
+            w.write(" *\n");
+            w.write(" * Unless required by applicable law or agreed to in writing, software\n");
+            w.write(" * distributed under the License is distributed on an \"AS IS\" BASIS,\n");
+            w.write(" * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n");
+            w.write(" * See the License for the specific language governing permissions and\n");
+            w.write(" * limitations under the License.\n");
+            w.write(" */\n");
+            
+            
             w.write("package "+_package+";\n\n");
             w.write("import com.tictactec.ta.lib.MInteger;\n");
 //            w.write("import org.dynami.core.chart.Plot;\n");
