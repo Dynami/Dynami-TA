@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Dynami-TA
-Bundle-SymbolicName: Dynami-TA
+Bundle-SymbolicName: org.dynami.ta
 Bundle-Version: 1.0.0.Anna
 Bundle-Vendor: Alessandro Atria
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
