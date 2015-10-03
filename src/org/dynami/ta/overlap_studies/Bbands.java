@@ -20,21 +20,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 import com.tictactec.ta.lib.MAType;
 /**
  * GENERATED CODE
  */
-public class Bbands extends TaLibIndicator implements ITechnicalIndicator {
+public class Bbands extends TaLibIndicator {
 	private int timePeriod = 5;
 	private double deviationsUp = 2.0;
 	private double deviationsDown = 2.0;
 	private MAType mAType = MAType.Sma;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outRealUpperBand = new Series();
 	private Series outRealMiddleBand = new Series();

@@ -20,22 +20,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 import com.tictactec.ta.lib.MAType;
 /**
  * GENERATED CODE
  */
-public class Stoch extends TaLibIndicator implements ITechnicalIndicator {
+public class Stoch extends TaLibIndicator {
 	private int fast_KPeriod = 5;
 	private int slow_KPeriod = 3;
 	private MAType slow_KMA = MAType.Sma;
 	private int slow_DPeriod = 3;
 	private MAType slow_DMA = MAType.Sma;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outSlowK = new Series();
 	private Series outSlowD = new Series();

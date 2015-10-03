@@ -20,13 +20,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 /**
  * GENERATED CODE
  */
-public class SarExt extends TaLibIndicator implements ITechnicalIndicator {
+public class SarExt extends TaLibIndicator {
 	private double startValue = 0.0;
 	private double offsetOnReverse = 0.0;
 	private double aFInitLong = 0.02;
@@ -35,9 +34,6 @@ public class SarExt extends TaLibIndicator implements ITechnicalIndicator {
 	private double aFInitShort = 0.02;
 	private double aFShort = 0.02;
 	private double aFMaxShort = 0.2;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outReal = new Series();
 	

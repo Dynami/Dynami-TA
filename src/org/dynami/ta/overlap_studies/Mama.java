@@ -20,18 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 /**
  * GENERATED CODE
  */
-public class Mama extends TaLibIndicator implements ITechnicalIndicator {
+public class Mama extends TaLibIndicator {
 	private double fastLimit = 0.5;
 	private double slowLimit = 0.05;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outMAMA = new Series();
 	private Series outFAMA = new Series();

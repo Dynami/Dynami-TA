@@ -15,9 +15,19 @@
  */
 package org.dynami.ta;
 
+import org.dynami.core.ITechnicalIndicator;
+
 import com.tictactec.ta.lib.Core;
 
-public abstract class TaLibIndicator{
-	protected static final Core core = new Core();	
-	//protected static final int PAD = 10;
+public abstract class TaLibIndicator implements ITechnicalIndicator{
+	protected static final Core core = new Core();
+	protected boolean ready = false;
+	protected int lastLength = 0;
+	protected int PAD = 4;
+	
+	public void reset(){
+		lastLength = 0;
+		ready = false;
+		series().forEach(s->s.get().clear());
+	}
 }

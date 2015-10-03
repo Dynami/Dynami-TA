@@ -20,18 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 /**
  * GENERATED CODE
  */
-public class Sar extends TaLibIndicator implements ITechnicalIndicator {
+public class Sar extends TaLibIndicator {
 	private double accelerationFactor = 0.02;
 	private double aFMaximum = 0.2;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outReal = new Series();
 	

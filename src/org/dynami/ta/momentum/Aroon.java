@@ -20,17 +20,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 /**
  * GENERATED CODE
  */
-public class Aroon extends TaLibIndicator implements ITechnicalIndicator {
+public class Aroon extends TaLibIndicator {
 	private int timePeriod = 14;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outAroonDown = new Series();
 	private Series outAroonUp = new Series();

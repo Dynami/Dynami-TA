@@ -20,20 +20,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import org.dynami.ta.TaLibIndicator;
-import org.dynami.core.ITechnicalIndicator;
 import org.dynami.core.data.Series;
 import org.dynami.core.utils.DUtils;
 import com.tictactec.ta.lib.MAType;
 /**
  * GENERATED CODE
  */
-public class MovingAverageVariablePeriod extends TaLibIndicator implements ITechnicalIndicator {
+public class MovingAverageVariablePeriod extends TaLibIndicator {
 	private int minimumPeriod = 2;
 	private int maximumPeriod = 30;
 	private MAType mAType = MAType.Sma;
-	private int lastLength = 0;
-	private int PAD = 4;
-	private boolean ready = false;
 	// output series
 	private Series outReal = new Series();
 	

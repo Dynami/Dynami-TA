@@ -166,7 +166,6 @@ public class TAGeneratorFactory {
             w.write("import java.util.List;\n");
             w.write("import java.util.function.Supplier;\n");
             w.write("import org.dynami.ta.TaLibIndicator;\n");
-            w.write("import org.dynami.core.ITechnicalIndicator;\n");
             w.write("import org.dynami.core.data.Series;\n");
             w.write("import org.dynami.core.utils.DUtils;\n");
             
@@ -187,16 +186,16 @@ public class TAGeneratorFactory {
 //            if(_annots != null){
 //            	w.write(_annots+"\n");
 //            }
-            w.write("public class "+_className+" extends TaLibIndicator implements ITechnicalIndicator {\n");
+            w.write("public class "+_className+" extends TaLibIndicator {\n");
             
             for(int i = 0 ; i < inParamNames.size(); i++){
             	w.write("\tprivate "+inParamTypes.get(i)+" ");
         		w.write(inParamNames.get(i)+" = ");
         		w.write(inParamDefValues.get(inParamNames.get(i))+";\n");
         	}
-            w.write("\tprivate int lastLength = 0;\n");
-            w.write("\tprivate int PAD = 4;\n");
-            w.write("\tprivate boolean ready = false;\n");
+//            w.write("\tprivate int lastLength = 0;\n");
+//            w.write("\tprivate int PAD = 4;\n");
+//            w.write("\tprivate boolean ready = false;\n");
             w.write("\t// output series\n");
     		for(int i = 0 ; i < outParamNames.size(); i++){
     			w.write("\tprivate Series ");
