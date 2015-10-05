@@ -23,8 +23,8 @@ public abstract class TaLibIndicator implements ITechnicalIndicator{
 	protected static final Core core = new Core();
 	protected boolean ready = false;
 	protected int lastLength = 0;
-	protected int PAD = 4;
-	
+	protected int PAD = 10;
+
 	public void reset(){
 		lastLength = 0;
 		ready = false;
