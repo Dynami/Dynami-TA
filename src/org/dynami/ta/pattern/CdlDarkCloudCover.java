@@ -74,7 +74,7 @@ public class CdlDarkCloudCover extends TaLibIndicator {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
-		final int currentLength = open.size();
+		final int currentLength = open.size()-1;
 		final double[] _tmpopen = open.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		final double[] _tmphigh = high.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		final double[] _tmplow = low.toArray(Math.max(lastLength-PAD, 0), currentLength);

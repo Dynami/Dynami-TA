@@ -83,7 +83,7 @@ public class MovingAverageVariablePeriod extends TaLibIndicator {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
-		final int currentLength = inReal.size();
+		final int currentLength = inReal.size()-1;
 		final double[] _tmpinReal = inReal.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		final double[] _tmpinPeriods = inPeriods.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		// define output parameters

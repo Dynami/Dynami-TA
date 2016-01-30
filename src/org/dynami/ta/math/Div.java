@@ -63,7 +63,7 @@ public class Div extends TaLibIndicator {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
-		final int currentLength = inReal0.size();
+		final int currentLength = inReal0.size()-1;
 		final double[] _tmpinReal0 = inReal0.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		final double[] _tmpinReal1 = inReal1.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		// define output parameters

@@ -74,7 +74,7 @@ public class MinusDI extends TaLibIndicator {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
-		final int currentLength = high.size();
+		final int currentLength = high.size()-1;
 		final double[] _tmphigh = high.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		final double[] _tmplow = low.toArray(Math.max(lastLength-PAD, 0), currentLength);
 		final double[] _tmpclose = close.toArray(Math.max(lastLength-PAD, 0), currentLength);

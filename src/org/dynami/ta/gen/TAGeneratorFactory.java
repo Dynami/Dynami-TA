@@ -32,14 +32,14 @@ public class TAGeneratorFactory {
 	    static public final double OPENINTEREST = 32;
 	    static public final double TIMESTAMP    = 64;
 	}
-	
+
 	public final class FunctionFlags {
 		static public final int OVERLAP = 16777216;
 		static public final int VOLUME = 67108864;
 		static public final int UNSTABLE_PERIOD = 134217728;
 		static public final int PATTERN = 268435456;
 	}
-	
+
 	public final static String PKG = "org.dynami.ta.";
 	public final static String PATH = "./src";
 	public static void main(String[] args){
@@ -49,7 +49,7 @@ public class TAGeneratorFactory {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Map<String, String> pkg_ext = new HashMap<String, String>();
 	public TAGeneratorFactory() {
 		pkg_ext.put("Overlap Studies", "overlap_studies");
@@ -63,7 +63,7 @@ public class TAGeneratorFactory {
 		pkg_ext.put("Pattern Recognition", "pattern");
 		pkg_ext.put("Cycle Indicators", "cycle");
 	}
-	
+
 	public void generateAll() throws Exception {
 		Method[] methods = CoreAnnotated.class.getDeclaredMethods();
 		FuncInfo info;
@@ -74,12 +74,12 @@ public class TAGeneratorFactory {
 			}
 		}
 	}
-	
+
 	private void generate(Method method, FuncInfo info) throws Exception{
 		boolean needsMATypeImport = false;
 		String _methodName = method.getName();
 		String _package = PKG+pkg_ext.get(info.group());
-		
+
 		//String _name = info.name();
 		String _className = getHumanNameFromMethod(_methodName, false);
 		List<String> inSeriesNames = new ArrayList<String>();
@@ -87,15 +87,15 @@ public class TAGeneratorFactory {
 		List<String> inIntegerParamNames = new ArrayList<String>();
 		List<String> inParamTypes = new ArrayList<String>();
 		Map<String, String> inParamDefValues = new HashMap<String, String>();
-		
+
 		List<String> outParamNames = new ArrayList<String>();
 		List<String> outParamTypes = new ArrayList<String>();
-		
+
 		final String fullPath = generatePackageDirectoryTree(PATH, _package);
-		
+
 		Annotation[][] paramAnnots = method.getParameterAnnotations();
 		Class<?>[] paramTypes = method.getParameterTypes();
-		
+
 		// fetch params, skip first two params
 		for(int i = 2; i < paramTypes.length; i++){
 			// fetch param annotations
@@ -105,7 +105,7 @@ public class TAGeneratorFactory {
 					inSeriesNames.addAll(getInputParamNames(((InputParameterInfo)paramAnnots[i][j]).paramName(), flags));
 				}
 				if(paramAnnots[i][j] instanceof OptInputParameterInfo){
-					String inParamName =camelize(((OptInputParameterInfo)paramAnnots[i][j]).displayName()); 
+					String inParamName =camelize(((OptInputParameterInfo)paramAnnots[i][j]).displayName());
 					inParamNames.add(inParamName);
 					if(OptInputParameterType.TA_OptInput_IntegerRange.equals(((OptInputParameterInfo)paramAnnots[i][j]).type())){
 						inParamTypes.add("int");
@@ -122,7 +122,7 @@ public class TAGeneratorFactory {
 						inParamTypes.add("double[]");
 					}
 				}
-				
+
 				if(paramAnnots[i][j] instanceof OutputParameterInfo){
 					outParamNames.add(camelize(((OutputParameterInfo)paramAnnots[i][j]).paramName()));
 					if(OutputParameterType.TA_Output_Real.equals(((OutputParameterInfo)paramAnnots[i][j]).type())){
@@ -133,14 +133,14 @@ public class TAGeneratorFactory {
 				}
 			}
 		}
-		
+
 		//String _annots = getIndicatorAnnots(_methodName, info.flags(), outParamNames);
-		
+
 		BufferedWriter w = null;
 		try {
             //Construct the BufferedWriter object
             w = new BufferedWriter(new FileWriter(fullPath+File.separator+_className+".java"));
-            
+
             //LICENCE
             w.write("/*\n");
             w.write(" * Copyright 2015 Alessandro Atria - a.atria@gmail.com\n");
@@ -157,8 +157,8 @@ public class TAGeneratorFactory {
             w.write(" * See the License for the specific language governing permissions and\n");
             w.write(" * limitations under the License.\n");
             w.write(" */\n");
-            
-            
+
+
             w.write("package "+_package+";\n\n");
             w.write("import com.tictactec.ta.lib.MInteger;\n");
 //            w.write("import org.dynami.core.chart.Plot;\n");
@@ -168,7 +168,7 @@ public class TAGeneratorFactory {
             w.write("import org.dynami.ta.TaLibIndicator;\n");
             w.write("import org.dynami.core.data.Series;\n");
             w.write("import org.dynami.core.utils.DUtils;\n");
-            
+
 //            if(_annots != null){
 //            	if(_annots.startsWith("@Overlap")){
 //            		w.write("import org.dynami.core.ta.annots.Overlap;\n");
@@ -187,7 +187,7 @@ public class TAGeneratorFactory {
 //            	w.write(_annots+"\n");
 //            }
             w.write("public class "+_className+" extends TaLibIndicator {\n");
-            
+
             for(int i = 0 ; i < inParamNames.size(); i++){
             	w.write("\tprivate "+inParamTypes.get(i)+" ");
         		w.write(inParamNames.get(i)+" = ");
@@ -201,7 +201,7 @@ public class TAGeneratorFactory {
     			w.write("\tprivate Series ");
         		w.write(outParamNames.get(i)+" = new Series();\n");
     		}
-            
+
             w.write("\t\n");
             if(inParamNames.size() > 0){
 	            // costruttore senza parametri solo ci sono parametri in input
@@ -245,7 +245,7 @@ public class TAGeneratorFactory {
             }
             w.write("PAD);\n");
             w.write("\t}\n\n");
-            
+
             w.write("\tprivate void computePad(int...v){\n");
             w.write("\t\tint max = Integer.MIN_VALUE;\n");
             w.write("\t\tfor(int d : v){\n");
@@ -254,18 +254,18 @@ public class TAGeneratorFactory {
             w.write("\t\t}\n");
             w.write("\t\tPAD = max;\n");
             w.write("\t}\n\n");
-            
+
             w.write("\t@Override\n");
             w.write("\tpublic String getName(){\n");
         	w.write("\t\treturn \""+getHumanNameFromMethod(_methodName, true)+ "\";\n");
         	w.write("\t}\n\n");
-            
+
         	w.write("\t@Override\n");
             w.write("\tpublic String getDescription(){\n");
         	w.write("\t\treturn \""+getHumanNameFromMethod(_methodName, true)+" - "+info.group()+"\";\n");
         	w.write("\t}\n\n");
-        	
-        	
+
+
         	w.write("\t/**\n");
             w.write("\t * Compute indicator based on constructor class parameters \n");
             w.write("\t * and input Series.\n");
@@ -279,19 +279,19 @@ public class TAGeneratorFactory {
         	w.write(") {\n");
         	w.write("\t\tfinal MInteger outBegIdx = new MInteger();\n");
         	w.write("\t\tfinal MInteger outNBElement = new MInteger();\n");
-        	
+
         	w.write("\t\t// define strict necessary input parameters\n");
-        	w.write("\t\tfinal int currentLength = "+inSeriesNames.get(0)+".size();\n");
+        	w.write("\t\tfinal int currentLength = "+inSeriesNames.get(0)+".size()-1;\n");
         	for(int i = 0 ; i < inSeriesNames.size(); i++){
         		w.write("\t\tfinal double[] _tmp"+inSeriesNames.get(i)+" = "+inSeriesNames.get(i)+".toArray(Math.max(lastLength-PAD, 0), currentLength);\n");
         	}
-        	
+
         	w.write("\t\t// define output parameters\n");
         	for(int i = 0 ; i < outParamNames.size(); i++){
         		w.write("\t\tfinal "+outParamTypes.get(i)+" _"+outParamNames.get(i)+" = new "+(outParamTypes.get(i).substring(0, outParamTypes.get(i).length()-2))+"[_tmp"+inSeriesNames.get(0)+".length];\n");
         	}
         	w.write("\t\t\n");
-        	
+
         	w.write("\t\tready = DUtils.max(");
         	for(int i = 0 ; i < inSeriesNames.size(); i++){
         		if(i > 0) {
@@ -310,14 +310,14 @@ public class TAGeneratorFactory {
         		}
         	}
         	w.write(");\n");
-        	
-        	// invocazione del metodo core 
+
+        	// invocazione del metodo core
         	w.write("\t\t// calculate output\n");
         	w.write("\t\tcore."+_methodName+"(0, _tmp"+inSeriesNames.get(0)+".length-1, ");
         	for(int i = 0 ; i < inSeriesNames.size(); i++){
         		w.write("_tmp"+inSeriesNames.get(i)+", ");
         	}
-        	
+
         	for(int i = 0 ; i < inParamNames.size(); i++){
         		w.write("this."+inParamNames.get(i)+", ");
         	}
@@ -329,20 +329,20 @@ public class TAGeneratorFactory {
         		}
         	}
         	w.write(");\n ");
-        	
+
         	w.write("\t\t// shift data to end of array and set output fields\n");
         	for(int i = 0 ; i < outParamNames.size(); i++){
         		w.write("\t\tDUtils.shift(_"+outParamNames.get(i)+", outBegIdx.value);\n");
         	}
-        	
+
         	w.write("\t\tfor(int i = lastLength, j = currentLength-lastLength; i < currentLength; i++, lastLength++, j--){\n");
         	for(int i = 0 ; i < outParamNames.size(); i++){
         		w.write("\t\t\t"+outParamNames.get(i)+".append(_"+outParamNames.get(i)+"[_"+outParamNames.get(i)+".length-j]);\n");
         	}
         	w.write("\t\t}\n");
-        	
+
         	w.write("\t}\n\n");
-        	
+
         	if(outParamNames.size() > 1){
         		for(int i = 0 ; i < outParamNames.size(); i++){
         			//w.write("\t@Plot(name=\""+outParamNames.get(i).substring(3)+"\")\n");
@@ -364,21 +364,21 @@ public class TAGeneratorFactory {
         		for(int i = 0 ; i < outParamNames.size(); i++){
         			if(i > 0)
         				w.write(", ");
-        			
+
         			w.write("this::get"+outParamNames.get(i).substring(3));
         		}
         	} else {
         		w.write("this::get");
         	}
-        	
+
         	w.write(");\n");
         	w.write("\t}\n");
-        	
+
         	w.write("\t@Override\n");
         	w.write("\tpublic boolean isReady() {\n");
         	w.write("\t\treturn ready;\n");
         	w.write("\t}\n");
-        	
+
         	w.write("\t@Override\n");
         	w.write("\tpublic String[] seriesNames() {\n");
         	w.write("\t\treturn new String[]{");
@@ -397,9 +397,9 @@ public class TAGeneratorFactory {
         	}
         	w.write("};\n");
         	w.write("\t}\n");
-        	
+
             w.write("}\n\n");
-            
+
 		} catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -414,7 +414,7 @@ public class TAGeneratorFactory {
             }
         }
 	}
-	
+
 	private String getHumanNameFromMethod(String name, boolean withSpace){
 		char[] _name = name.toCharArray();
 		StringBuilder buffer = new StringBuilder();
@@ -422,7 +422,7 @@ public class TAGeneratorFactory {
 			if(i == 0){
 				buffer.append(Character.toUpperCase(_name[i]));
 				continue;
-			} 
+			}
 			if(Character.isUpperCase(_name[i])){
 				if(withSpace){
 					buffer.append(" ");
@@ -434,7 +434,7 @@ public class TAGeneratorFactory {
 		}
 		return buffer.toString();
 	}
-	
+
 	public static String camelize(String name){
 		char[] _name = name.toCharArray();
 		StringBuilder buffer = new StringBuilder();
@@ -442,7 +442,7 @@ public class TAGeneratorFactory {
 			if(i == 0){
 				buffer.append(Character.toLowerCase(_name[i]));
 				continue;
-			} 
+			}
 			if(Character.isSpaceChar(_name[i])){
 				buffer.append(Character.toUpperCase(_name[++i]));
 			} else {
@@ -451,7 +451,7 @@ public class TAGeneratorFactory {
 		}
 		return buffer.toString().replace('-', '_');
 	}
-	
+
 	private String generatePackageDirectoryTree(String sourcePath, String _package) throws Exception{
 		String fullPath = sourcePath+File.separatorChar+_package.replace('.', File.separatorChar);
 		System.out.println(fullPath);
@@ -459,7 +459,7 @@ public class TAGeneratorFactory {
 		dir.mkdirs();
 		return fullPath;
 	}
-	
+
 	private String properCase(String in){
 		StringBuilder buffer = new StringBuilder();
 		char[] _in = in.toCharArray();
@@ -472,7 +472,7 @@ public class TAGeneratorFactory {
 		}
 		return buffer.toString();
 	}
-	
+
 	private List<String> getInputParamNames(final String defName, final int flag){
 		ArrayList<String> output = new ArrayList<String>();
 		if(flag == 0){
@@ -480,7 +480,7 @@ public class TAGeneratorFactory {
 			return output;
 		}
 		int input = flag;
-		
+
 		if(flag/InputFlags.TIMESTAMP >= 1){
 			output.add("timeStamp");
 			input -= InputFlags.TIMESTAMP;
@@ -509,12 +509,12 @@ public class TAGeneratorFactory {
 			output.add("open");
 			input -= InputFlags.OPEN;
 		}
-		
+
 		output.trimToSize();
 		reverse(output);
 		return output;
 	}
-	
+
 	private String getIndicatorAnnots(final String defName, final int flag, final List<String> outParamNames){
 		ArrayList<String> output = new ArrayList<String>();
 		if(flag == 0){
@@ -527,11 +527,11 @@ public class TAGeneratorFactory {
 				}
 				buffer.append("})");
 			}
-			
+
 			return buffer.toString();
 		}
 		int input = flag;
-		
+
 		if(flag/FunctionFlags.PATTERN >= 1){
 			//output.add("Overlap.ON.PARENT");
 			input -= FunctionFlags.PATTERN;
@@ -549,10 +549,10 @@ public class TAGeneratorFactory {
 			output.add("Overlap.ON.PRICE");
 			input -= FunctionFlags.OVERLAP;
 		}
-		
+
 		return null;
 	}
-	
+
 	public static <T> void reverse(final List<T> a){
     	T temp = null;
     	int length = a.size();
