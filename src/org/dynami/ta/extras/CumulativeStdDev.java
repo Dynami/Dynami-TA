@@ -75,7 +75,7 @@ public class CumulativeStdDev extends TaLibIndicator {
 	 */
 	public void compute( final Series inReal) {
 		stdDev.compute(inReal);
-		Series diff = inReal.substract(1);
+		Series diff = inReal.lagAndSubstract(1);
 		outReal = diff.divide(stdDev.get());
 	}
 

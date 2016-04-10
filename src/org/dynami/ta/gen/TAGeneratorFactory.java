@@ -515,6 +515,7 @@ public class TAGeneratorFactory {
 		return output;
 	}
 
+	@SuppressWarnings("unused")
 	private String getIndicatorAnnots(final String defName, final int flag, final List<String> outParamNames){
 		ArrayList<String> output = new ArrayList<String>();
 		if(flag == 0){
