@@ -3,6 +3,13 @@
   <groupId>org.dynami</groupId>
   <artifactId>Dynami-TA</artifactId>
   <version>0.0.1</version>
+  <repositories>
+  	<repository>
+    <id>in-project</id>
+        <name>In Project Repo</name>
+        <url>file://${project.basedir}/libs</url>
+	</repository>
+  </repositories>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -26,8 +33,6 @@
   		<groupId>com.tictactec</groupId>
   		<artifactId>ta-lib</artifactId>
   		<version>0.4.0</version>
-  		<scope>system</scope>
-  		<systemPath>${project.basedir}/libs/ta-lib-0.4.0.jar</systemPath>
   	</dependency>
   </dependencies>
 </project>
