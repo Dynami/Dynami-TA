@@ -48,12 +48,12 @@ public class Adx extends TaLibIndicator {
 	}
 
 	private void computePad(int...v){
-		int max = Integer.MIN_VALUE;
+		int max = 0;
 		for(int d : v){
 			if(d > max)
 				max = d;
 		}
-		PAD = max;
+		PAD = max*2;
 	}
 
 	@Override
@@ -84,6 +84,7 @@ public class Adx extends TaLibIndicator {
 		ready = DUtils.max(_tmphigh.length, _tmplow.length, _tmpclose.length) >= DUtils.max(timePeriod);
 		// calculate output
 		core.adx(0, _tmphigh.length-1, _tmphigh, _tmplow, _tmpclose, this.timePeriod, outBegIdx, outNBElement, _outReal);
+		
  		// shift data to end of array and set output fields
 		DUtils.shift(_outReal, outBegIdx.value);
 		for(int i = lastLength, j = currentLength-lastLength; i < currentLength; i++, lastLength++, j--){
