@@ -5,7 +5,7 @@
   <version>0.0.1</version>
   <repositories>
   	<repository>
-    <id>dynami-ta-in-project</id>
+    	<id>dynami-ta-in-project</id>
         <name>In Project Repo</name>
         <url>file://${project.basedir}/libs</url>
 	</repository>
