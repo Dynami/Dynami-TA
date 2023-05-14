@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alessandro Atria - a.atria@gmail.com
+ * Copyright 2023 Alessandro Atria - a.atria@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,12 +48,12 @@ public class Adx extends TaLibIndicator {
 	}
 
 	private void computePad(int...v){
-		int max = 0;
+		int max = Integer.MIN_VALUE;
 		for(int d : v){
 			if(d > max)
 				max = d;
 		}
-		PAD = max*2;
+		PAD = max;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Adx extends TaLibIndicator {
 	 * Compute indicator based on constructor class parameters 
 	 * and input Series.
 	 */
-	public void compute( final Series high, final Series low, final Series close) {
+	public Adx compute( final Series high, final Series low, final Series close) {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
@@ -84,12 +84,12 @@ public class Adx extends TaLibIndicator {
 		ready = DUtils.max(_tmphigh.length, _tmplow.length, _tmpclose.length) >= DUtils.max(timePeriod);
 		// calculate output
 		core.adx(0, _tmphigh.length-1, _tmphigh, _tmplow, _tmpclose, this.timePeriod, outBegIdx, outNBElement, _outReal);
-		
  		// shift data to end of array and set output fields
 		DUtils.shift(_outReal, outBegIdx.value);
 		for(int i = lastLength, j = currentLength-lastLength; i < currentLength; i++, lastLength++, j--){
 			outReal.append(_outReal[_outReal.length-j]);
 		}
+		return this;
 	}
 
 	public Series get(){

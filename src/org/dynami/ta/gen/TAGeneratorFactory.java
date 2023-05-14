@@ -81,7 +81,7 @@ public class TAGeneratorFactory {
 		String _package = PKG+pkg_ext.get(info.group());
 
 		//String _name = info.name();
-		String _className = getHumanNameFromMethod(_methodName, false);
+		final String _className = getHumanNameFromMethod(_methodName, false);
 		List<String> inSeriesNames = new ArrayList<String>();
 		List<String> inParamNames = new ArrayList<String>();
 		List<String> inIntegerParamNames = new ArrayList<String>();
@@ -143,7 +143,7 @@ public class TAGeneratorFactory {
 
             //LICENCE
             w.write("/*\n");
-            w.write(" * Copyright 2015 Alessandro Atria - a.atria@gmail.com\n");
+            w.write(" * Copyright 2023 Alessandro Atria - a.atria@gmail.com\n");
             w.write(" *\n");
             w.write(" * Licensed under the Apache License, Version 2.0 (the \"License\");\n");
             w.write(" * you may not use this file except in compliance with the License.\n");
@@ -271,7 +271,7 @@ public class TAGeneratorFactory {
             w.write("\t * and input Series.\n");
             w.write("\t */\n");
         	// definizione del metodo compute()
-        	w.write("\tpublic void compute( ");
+        	w.write("\tpublic "+_className+" compute( ");
         	for(int i = 0 ; i < inSeriesNames.size(); i++){
         		if(i > 0) w.write(", ");
         		w.write("final Series "+inSeriesNames.get(i));
@@ -340,6 +340,8 @@ public class TAGeneratorFactory {
         		w.write("\t\t\t"+outParamNames.get(i)+".append(_"+outParamNames.get(i)+"[_"+outParamNames.get(i)+".length-j]);\n");
         	}
         	w.write("\t\t}\n");
+
+			w.write("\t\treturn this;\n");
 
         	w.write("\t}\n\n");
 

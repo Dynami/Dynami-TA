@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alessandro Atria - a.atria@gmail.com
+ * Copyright 2023 Alessandro Atria - a.atria@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ public class Sar extends TaLibIndicator {
 	 * Compute indicator based on constructor class parameters 
 	 * and input Series.
 	 */
-	public void compute( final Series high, final Series low) {
+	public Sar compute( final Series high, final Series low) {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
@@ -92,6 +92,7 @@ public class Sar extends TaLibIndicator {
 		for(int i = lastLength, j = currentLength-lastLength; i < currentLength; i++, lastLength++, j--){
 			outReal.append(_outReal[_outReal.length-j]);
 		}
+		return this;
 	}
 
 	public Series get(){

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alessandro Atria - a.atria@gmail.com
+ * Copyright 2023 Alessandro Atria - a.atria@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ public class Mama extends TaLibIndicator {
 	 * Compute indicator based on constructor class parameters 
 	 * and input Series.
 	 */
-	public void compute( final Series inReal) {
+	public Mama compute( final Series inReal) {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
@@ -95,6 +95,7 @@ public class Mama extends TaLibIndicator {
 			outMAMA.append(_outMAMA[_outMAMA.length-j]);
 			outFAMA.append(_outFAMA[_outFAMA.length-j]);
 		}
+		return this;
 	}
 
 	public Series getMAMA(){

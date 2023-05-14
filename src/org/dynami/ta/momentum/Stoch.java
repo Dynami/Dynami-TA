@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Alessandro Atria - a.atria@gmail.com
+ * Copyright 2023 Alessandro Atria - a.atria@gmail.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ public class Stoch extends TaLibIndicator {
 	 * Compute indicator based on constructor class parameters 
 	 * and input Series.
 	 */
-	public void compute( final Series high, final Series low, final Series close) {
+	public Stoch compute( final Series high, final Series low, final Series close) {
 		final MInteger outBegIdx = new MInteger();
 		final MInteger outNBElement = new MInteger();
 		// define strict necessary input parameters
@@ -110,6 +110,7 @@ public class Stoch extends TaLibIndicator {
 			outSlowK.append(_outSlowK[_outSlowK.length-j]);
 			outSlowD.append(_outSlowD[_outSlowD.length-j]);
 		}
+		return this;
 	}
 
 	public Series getSlowK(){
